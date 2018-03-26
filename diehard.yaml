@@ -20,3 +20,6 @@ Resources:
       Environment:
         Variables:
           appname: diehard@lambda
+          retention_monthly: '13'
+          retention_weekly: '13'
+          retention_daily: '30'

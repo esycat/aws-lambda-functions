@@ -6,6 +6,16 @@ from Retention import Retention
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+def getRetentionPolicy():
+    policy = {}
+
+    for retention in Retention:
+        name = 'retention_' + retention.value
+        if name in os.environ:
+            policy[retention.value] = int(os.environ[name])
+
+    return policy
+
 def inferRetention(timestamp):
     # Annual backup on the New Year Day
     if timestamp.month == 1 and timestamp.day == 1:
@@ -68,11 +78,12 @@ def isExpired(snapshot):
 
     createdAt = snapshot.start_time.date()
     retention = Retention(getTagValue(snapshot, 'retention'))
+    policy    = getRetentionPolicy()
 
     return (
-        (retention == Retention.MONTHLY and createdAt < today - timedelta(days = 365)) or
-        (retention == Retention.WEEKLY  and createdAt < today - timedelta(weeks = 5)) or
-        (retention == Retention.DAILY   and createdAt < today - timedelta(days = 8))
+        (retention == Retention.MONTHLY and createdAt < today - timedelta(days  = policy.get(Retention.MONTHLY.value) * 31)) or
+        (retention == Retention.WEEKLY  and createdAt < today - timedelta(weeks = policy.get(Retention.WEEKLY.value))) or
+        (retention == Retention.DAILY   and createdAt < today - timedelta(days  = policy.get(Retention.DAILY.value)))
     )
 
 def rotate(ec2):
