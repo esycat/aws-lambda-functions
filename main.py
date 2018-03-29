@@ -1,4 +1,5 @@
 import os, logging
+import aws
 from Diehard import Diehard
 from policies.gfs import GFS
 
@@ -8,7 +9,7 @@ logger.setLevel(logging.INFO)
 def handler(event, context):
     logger.debug('Event: %s', event)
 
-    regions = [event['region']]
+    regions = event['regions'] if 'regions' in event else aws.getRegions()
     policy = GFS()
 
     for region in regions:
