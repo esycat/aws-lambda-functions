@@ -6,7 +6,7 @@ A simple Lambda function to automate EC2 EBS backups.
 
 ## Environment Variables
 * `appname` — name of the application, used for `CreatedBy` tags assigned to created snapshots, e.g. `diehard@lambda`
-* `retention_monthly` — number of months to retain monthly snapshots (one month is counted as 31 day)
+* `retention_monthly` — number of months to retain monthly snapshots (note: one month is counted as 31 day)
 * `retention_weekly` — number of weeks to retain weekly snapshots
 * `retention_daily` — number of days to retain daily snapshots
 
