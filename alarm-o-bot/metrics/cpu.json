@@ -1,0 +1,23 @@
+[
+    {
+        "Id": "cpu",
+        "MetricStat": {
+            "Metric": {
+                "Namespace": "AWS/EC2",
+                "MetricName": "CPUUtilization",
+                "Dimensions": [
+                    {
+                        "Name": "InstanceId",
+                        "Value": ""
+                    }
+                ]
+            },
+            "Period": 60,
+            "Stat": "Average"
+        }
+    },
+    {
+        "Id": "ad",
+        "Expression": "ANOMALY_DETECTION_BAND(cpu, 4)"
+    }
+]
